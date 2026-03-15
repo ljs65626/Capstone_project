@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WandaVision YOLO 작동 방식</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header {
+            /* Changed background to match Slide 2 side panel */
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+            padding: 30px 60px;
+            color: white;
+        }
+        .title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .flow-container {
+            padding: 30px 60px;
+        }
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 30px;
+        }
+        .flow-step {
+            width: 16%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            /* Changed background to accent red gradient */
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(106, 17, 203, 0.3);
+        }
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            font-size: 2rem;
+            /* Changed icon color to accent red */
+            color: #e74c3c;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .flow-step:hover .step-icon {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        }
+        .step-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .step-desc {
+            font-size: 0.85rem;
+            color: #555;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .flow-line {
+            position: absolute;
+            top: 40px;
+            left: 8%;
+            width: 84%;
+            height: 4px;
+            /* Changed line color to accent red */
+            background: #e74c3c;
+            /* Removed gradient/dashed effect for simplicity */
+            z-index: 1;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 15px 60px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-note {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .logo {
+            height: 30px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">WandaVision YOLO는 어떻게 작동하는가?</h1>
+            <p class="subtitle">컨테이너 자동 인식 및 기록 프로세스 흐름</p>
+        </div>
+        
+        <div class="flow-container">
+            <div class="flex mb-6">
+                 <!-- Changed purple box style to match Slide 2 highlight box -->
+                <div class="bg-gray-100 p-4 rounded-lg border-l-4 border-red-600">
+                    <p class="text-gray-800">WandaVision YOLO 시스템은 <strong>완전 자동화된 6단계 프로세스</strong>를 통해 컨테이너 트럭의 출입을 감지하고 기록합니다. 별도의 하드웨어 추가 설치 없이 기존 CCTV 인프라를 활용하여 구현됩니다.</p>
+                </div>
+            </div>
+            
+            <div class="flow-steps">
+                <div class="flow-line"></div>
+                
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="step-title">영상 입력</h3>
+                    <p class="step-desc">기존 설치된 CCTV 카메라 영상 실시간 수신</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="step-title">AI 분석 (탐지)</h3>
+                    <p class="step-desc">YOLOv8 기반 파인튜닝된 모델이 컨테이너 트럭 실시간 탐지 및 추적</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="step-title">이미지 캡처</h3>
+                    <p class="step-desc">최적 시점에 컨테이너 영역 이미지 자동 캡처</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h3 class="step-title">AI 분석 (OCR)</h3>
+                    <p class="step-desc">Google Gemini AI가 컨테이너 번호 인식 및 추출</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="step-title">데이터 기록</h3>
+                    <p class="step-desc">인식된 컨테이너 번호, 출입 시간, 관련 정보 자동 저장 (JSON 형식)</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="step-title">결과 확인</h3>
+                    <p class="step-desc">실시간 처리 결과 및 기록된 데이터 직접 확인 가능</p>
+                </div>
+            </div>
+            
+             <!-- Changed blue box style to match Slide 2 highlight box -->
+            <div class="mt-12 bg-gray-100 p-5 rounded-lg shadow-md border-l-4 border-red-600">
+                <div class="flex items-start">
+                    <div class="text-red-600 mr-4 text-2xl">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-800 font-medium text-lg mb-1">핵심 프로세스 특징</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-check-circle text-red-500 mr-2"></i> <strong>실시간 처리:</strong> 모든 단계가 지연 없이 즉시 처리되어 출입 흐름 방해 없음</li>
+                            <li><i class="fas fa-check-circle text-red-500 mr-2"></i> <strong>지능형 캡처:</strong> 컨테이너가 가장 잘 보이는 순간을 AI가 판단해 최적의 이미지 확보</li>
+                            <li><i class="fas fa-check-circle text-red-500 mr-2"></i> <strong>자동화된 워크플로우:</strong> 전체 과정이 자동화되어 운영자 개입 필요 없음</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Removed footer section -->
+    </div>
+</body>
+</html>

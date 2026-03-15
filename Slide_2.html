@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL Transportation: 현재의 도전 과제</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+        }
+        .side-panel {
+            width: 30%;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+            color: white;
+            padding: 60px 40px;
+            position: relative;
+        }
+        .main-content {
+            width: 70%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+        }
+        .side-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            color: white;
+        }
+        .logo {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            height: 35px;
+            opacity: 0.8;
+        }
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .challenge-item {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .challenge-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .challenge-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #e74c3c;
+        }
+        .challenge-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .challenge-desc {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+        .accent-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, #e74c3c, #c0392b);
+        }
+        .current-process {
+            background-color: #f1f5f9;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        .inefficiency-banner {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .inefficiency-icon {
+            font-size: 2.5rem;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="side-panel">
+            <div class="accent-bar"></div>
+            <h1 class="side-title">현재의<br>도전 과제</h1>
+            <p class="text-gray-300 text-lg">수동 컨테이너 관리의 어려움</p>
+            
+            <div class="mt-12">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-exclamation-triangle text-yellow-400 mr-3 text-xl"></i>
+                    <span class="text-gray-200">비효율적인 수동 프로세스</span>
+                </div>
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-clock text-yellow-400 mr-3 text-xl"></i>
+                    <span class="text-gray-200">시간 및 자원 낭비</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-chart-line text-yellow-400 mr-3 text-xl"></i>
+                    <span class="text-gray-200">데이터 활용 제한</span>
+                </div>
+            </div>
+            
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjPpoYZFiOp5jc17ofaU9O_me8xqY6aH-i2g&s" alt="NGL Transportation Logo" class="logo">
+        </div>
+        
+        <div class="main-content">
+            <div class="current-process">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">현재 컨테이너 출입 기록 방식:</h3>
+                <p class="text-gray-600">물류 창고 및 항만 출입구에서 컨테이너 트럭 출입은 주로 수기 기록이나 별도 스캔 장비를 통해 이루어집니다. 이 과정은 인력에 의존적이며 여러 비효율을 야기합니다.</p>
+            </div>
+            
+            <div class="challenge-grid">
+                <div class="challenge-item">
+                    <i class="fas fa-money-bill-wave challenge-icon"></i>
+                    <h3 class="challenge-title">높은 인건비 및 운영 비용</h3>
+                    <p class="challenge-desc">24시간 출입 관리를 위한 인력 배치로 인해 인건비가 지속적으로 발생하며, 관련 운영 비용이 증가합니다.</p>
+                </div>
+                
+                <div class="challenge-item">
+                    <i class="fas fa-exclamation-circle challenge-icon"></i>
+                    <h3 class="challenge-title">인적 오류 발생 가능성</h3>
+                    <p class="challenge-desc">수동 기록 과정에서 기록 누락, 오기입 등 인적 오류가 발생할 확률이 높으며, 이는 물류 관리의 정확성을 저해합니다.</p>
+                </div>
+                
+                <div class="challenge-item">
+                    <i class="fas fa-search challenge-icon"></i>
+                    <h3 class="challenge-title">실시간 현황 파악 어려움</h3>
+                    <p class="challenge-desc">수동 기록으로는 실시간 컨테이너 출입 현황을 즉각적으로 확인하기 어려워 물류 흐름 최적화에 제약이 발생합니다.</p>
+                </div>
+                
+                <div class="challenge-item">
+                    <i class="fas fa-database challenge-icon"></i>
+                    <h3 class="challenge-title">데이터 분석 및 활용 제약</h3>
+                    <p class="challenge-desc">수기로 작성된 데이터는 디지털화 과정이 추가로 필요하며, 이로 인해 데이터 기반 의사결정과 분석에 한계가 있습니다.</p>
+                </div>
+            </div>
+            
+            <div class="inefficiency-banner">
+                <i class="fas fa-hourglass-half inefficiency-icon"></i>
+                <div>
+                    <h3 class="font-bold text-xl mb-1">비효율적인 프로세스로 인한 시간 및 자원 낭비</h3>
+                    <p>수동 기록 과정은 물류 흐름을 지연시키고, 지속적인 인력 투입이 필요하여 장기적으로 비용 증가를 초래합니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

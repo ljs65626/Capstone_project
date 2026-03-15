@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL Transportation 프로젝트 갤러리</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .gallery-header {
+            background: linear-gradient(90deg, #4834DF, #6C63FF);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .gallery-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gallery-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .slide-preview {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            height: 280px; /* 카드 높이 고정 */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .active-slide {
+            border: 3px solid #4834DF;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(72, 52, 223, 0.3);
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+        
+        .slide-iframe-container {
+            position: relative;
+            height: 200px; /* 고정 높이 */
+            overflow: hidden;
+            flex-grow: 1;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .slide-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300%; /* 더 크게 설정 */
+            height: 300%; /* 더 크게 설정 */
+            border: none;
+            pointer-events: none; /* 미리보기에서는 상호작용 비활성화 */
+            transform: scale(0.2); /* 더 작게 스케일 조정 */
+            transform-origin: 0 0;
+        }
+        
+        .slide-info {
+            padding: 1rem;
+            background-color: white;
+        }
+        
+        .slide-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .slide-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            padding: 2rem;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+        }
+        
+        .modal-iframe {
+            width: 100%;
+            height: 90vh;
+            border: none;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background-color: #f8f9fa;
+        }
+        
+        .nav-button {
+            padding: 0.5rem 1rem;
+            background-color: #4834DF;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background-color: #3a2bb8;
+        }
+        
+        .nav-button i {
+            margin: 0 5px;
+        }
+        
+        .nav-info {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- 상단 네비게이션 바 -->
+    <nav class="bg-gray-800 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center" style="max-width: 1280px;"> <!-- Adjust max-width if needed -->
+            <a href="index.html" class="text-xl font-bold hover:text-gray-300">WandaVision</a>
+            <div class="space-x-6">
+                <a href="index.html" class="hover:text-gray-300">메인</a>
+                <a href="gallery.html" class="hover:text-gray-300">발표자료</a>
+                <a href="pamphlet.html" class="hover:text-gray-300">팸플릿</a>
+            </div>
+        </div>
+    </nav>
+    <header class="gallery-header">
+        <h1 class="gallery-title">NGL Transportation 프로젝트 갤러리</h1>
+        <p class="gallery-subtitle">AI 기반 컨테이너 출입 자동 기록 시스템</p>
+    </header>
+    
+    <main class="gallery-grid" id="gallery">
+        <!-- 슬라이드 미리보기는 자바스크립트로 동적 생성됨 -->
+    </main>
+    
+    <div class="slide-modal" id="slideModal">
+        <div class="modal-content">
+            <div class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <iframe id="modalIframe" class="modal-iframe" src="" frameborder="0"></iframe>
+            <div class="navigation">
+                <button class="nav-button" id="prevSlide">
+                    <i class="fas fa-chevron-left"></i> 이전
+                </button>
+                <div class="nav-info" id="slideInfo">슬라이드 1 / 10</div>
+                <button class="nav-button" id="nextSlide">
+                    다음 <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryEl = document.getElementById('gallery');
+            const modalEl = document.getElementById('slideModal');
+            const modalIframeEl = document.getElementById('modalIframe');
+            const closeModalEl = document.getElementById('closeModal');
+            const prevSlideEl = document.getElementById('prevSlide');
+            const nextSlideEl = document.getElementById('nextSlide');
+            const slideInfoEl = document.getElementById('slideInfo');
+            
+            let currentSlide = 1;
+            const totalSlides = 10;
+            
+            // 슬라이드 제목
+            const slideTitles = [
+                "NGL Transportation 물류 효율성 극대화",
+                "프로젝트 소개 및 문제 정의",
+                "프로젝트 목표 및 연구 방법론",
+                "시스템 아키텍처 및 주요 모듈",
+                "AI 모델 개발 및 구현 과정",
+                "데이터 획득 및 전처리 전략",
+                "웹 인터페이스 및 대시보드 설계",
+                "시스템 성능 평가 및 검증",
+                "시스템 도입으로 얻는 기대 효과",
+                "시스템 도입 방안 및 발전 방향"
+            ];
+            
+            // 각 슬라이드의 대표 색상
+            const slideColors = [
+                "linear-gradient(135deg, #141E30, #243B55)", // 슬라이드 1
+                "linear-gradient(135deg, #8E2DE2, #4A00E0)", // 슬라이드 2
+                "linear-gradient(135deg, #0083B0, #00B4DB)", // 슬라이드 3
+                "linear-gradient(135deg, #6A3093, #A044FF)", // 슬라이드 4
+                "linear-gradient(135deg, #FF416C, #FF4B2B)", // 슬라이드 5
+                "linear-gradient(135deg, #11998E, #38EF7D)", // 슬라이드 6
+                "linear-gradient(135deg, #4568DC, #B06AB3)", // 슬라이드 7
+                "linear-gradient(135deg, #F09819, #EDDE5D)", // 슬라이드 8
+                "linear-gradient(135deg, #493240, #FF0099)", // 슬라이드 9
+                "linear-gradient(135deg, #6C63FF, #4834DF)"  // 슬라이드 10
+            ];
+            
+            // 갤러리 미리보기 생성
+            for (let i = 1; i <= totalSlides; i++) {
+                const slidePreview = document.createElement('div');
+                slidePreview.className = 'slide-preview';
+                slidePreview.setAttribute('data-slide', i);
+                
+                const slideNumber = document.createElement('div');
+                slideNumber.className = 'slide-number';
+                slideNumber.textContent = i;
+                
+                const iframeContainer = document.createElement('div');
+                iframeContainer.className = 'slide-iframe-container';
+                iframeContainer.style.background = slideColors[i-1];
+                
+                // 슬라이드 미리보기 배경 이미지
+                const previewBackground = document.createElement('div');
+                previewBackground.style.position = 'absolute';
+                previewBackground.style.top = '0';
+                previewBackground.style.left = '0';
+                previewBackground.style.width = '100%';
+                previewBackground.style.height = '100%';
+                previewBackground.style.display = 'flex';
+                previewBackground.style.alignItems = 'center';
+                previewBackground.style.justifyContent = 'center';
+                previewBackground.style.color = 'white';
+                previewBackground.style.fontWeight = 'bold';
+                previewBackground.style.fontSize = '1.2rem';
+                previewBackground.style.padding = '20px';
+                previewBackground.style.textAlign = 'center';
+                previewBackground.textContent = slideTitles[i-1];
+                
+                iframeContainer.appendChild(previewBackground);
+                
+                const slideInfo = document.createElement('div');
+                slideInfo.className = 'slide-info';
+                
+                const slideTitle = document.createElement('h3');
+                slideTitle.className = 'slide-title';
+                slideTitle.textContent = slideTitles[i-1];
+                
+                slideInfo.appendChild(slideTitle);
+                slidePreview.appendChild(slideNumber);
+                slidePreview.appendChild(iframeContainer);
+                slidePreview.appendChild(slideInfo);
+                
+                // 클릭 이벤트 추가
+                slidePreview.addEventListener('click', function() {
+                    openModal(i);
+                });
+                
+                galleryEl.appendChild(slidePreview);
+            }
+            
+            // 모달 열기 함수
+            function openModal(slideNumber) {
+                currentSlide = slideNumber;
+                modalIframeEl.src = `Slide_${slideNumber}.html`;
+                modalEl.style.display = 'block';
+                updateNavigation();
+                
+                // 활성 슬라이드 표시
+                document.querySelectorAll('.slide-preview').forEach(el => {
+                    if (parseInt(el.getAttribute('data-slide')) === currentSlide) {
+                        el.classList.add('active-slide');
+                    } else {
+                        el.classList.remove('active-slide');
+                    }
+                });
+            }
+            
+            // 모달 닫기
+            closeModalEl.addEventListener('click', function() {
+                modalEl.style.display = 'none';
+                modalIframeEl.src = '';
+            });
+            
+            // 이전 슬라이드
+            prevSlideEl.addEventListener('click', function() {
+                if (currentSlide > 1) {
+                    openModal(currentSlide - 1);
+                }
+            });
+            
+            // 다음 슬라이드
+            nextSlideEl.addEventListener('click', function() {
+                if (currentSlide < totalSlides) {
+                    openModal(currentSlide + 1);
+                }
+            });
+            
+            // 내비게이션 업데이트
+            function updateNavigation() {
+                slideInfoEl.textContent = `슬라이드 ${currentSlide} / ${totalSlides}`;
+                
+                // 이전 버튼 활성화/비활성화
+                if (currentSlide === 1) {
+                    prevSlideEl.disabled = true;
+                    prevSlideEl.style.opacity = '0.5';
+                } else {
+                    prevSlideEl.disabled = false;
+                    prevSlideEl.style.opacity = '1';
+                }
+                
+                // 다음 버튼 활성화/비활성화
+                if (currentSlide === totalSlides) {
+                    nextSlideEl.disabled = true;
+                    nextSlideEl.style.opacity = '0.5';
+                } else {
+                    nextSlideEl.disabled = false;
+                    nextSlideEl.style.opacity = '1';
+                }
+            }
+            
+            // 키보드 화살표로 슬라이드 변경
+            document.addEventListener('keydown', function(e) {
+                if (modalEl.style.display === 'block') {
+                    if (e.key === 'ArrowLeft' && currentSlide > 1) {
+                        openModal(currentSlide - 1);
+                    } else if (e.key === 'ArrowRight' && currentSlide < totalSlides) {
+                        openModal(currentSlide + 1);
+                    } else if (e.key === 'Escape') {
+                        modalEl.style.display = 'none';
+                        modalIframeEl.src = '';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

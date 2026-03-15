@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL Transportation: AI 기반 컨테이너 출입 자동 기록 시스템</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        html, body {
+            height: 100%; /* Needed for flex centering */
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #e0e0e0; /* Light grey background for contrast */
+        }
+        body {
+             display: flex;
+             justify-content: center;
+             align-items: flex-start; /* Align pamphlet to top */
+             padding: 30px 0; /* Add padding around pamphlet */
+             box-sizing: border-box; /* Include padding in height calculation */
+        }
+        /* A4 Ratio (1 : 1.414) - Approximate */
+        .pamphlet-container {
+            width: 1000px; /* Fixed width */
+            height: 1414px; /* width * sqrt(2) */
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            /* overflow: hidden; Removed to allow inner scroll */
+        }
+        .navigation-bar {
+            background-color: #1f2937; /* Darker gray, similar to screenshot nav */
+            color: white;
+            padding: 0.75rem 2.5rem; /* Adjusted padding */
+            flex-shrink: 0; /* Prevent nav from shrinking */
+            border-bottom: 1px solid #374151;
+        }
+        .navigation-bar .container {
+             max-width: 100%; /* Allow full width within padding */
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+        }
+        .navigation-bar a {
+            color: #d1d5db; /* Lighter text color */
+            transition: color 0.3s ease;
+            font-size: 0.9rem; /* Adjusted font size */
+        }
+        .navigation-bar a:hover {
+            color: #ffffff;
+        }
+        .navigation-bar .brand {
+             font-size: 1.1rem; /* Adjusted font size */
+             font-weight: bold;
+        }
+        .header-section {
+            background-color: #2c3e50; /* Primary color from slides */
+            color: white;
+            padding: 20px 40px; /* Adjusted padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+        .header-left {
+            flex-grow: 1;
+        }
+        .header-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .project-title {
+            font-size: 1.5rem; /* Adjusted size */
+            font-weight: 700;
+            margin-bottom: 3px; /* Adjusted margin */
+        }
+        .project-subtitle {
+            font-size: 0.85rem; /* Adjusted size */
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 6px; /* Adjusted margin */
+        }
+        .team-info {
+            font-size: 0.7rem; /* Adjusted size */
+            opacity: 0.8;
+        }
+        .logo-container img {
+            height: 30px; /* Adjusted size */
+            margin-bottom: 3px; /* Adjusted margin */
+        }
+        .main-content-area {
+            padding: 15px 20px; /* Reduced top/bottom padding */
+            flex-grow: 1; /* Take remaining height */
+            overflow-y: auto; /* Allow scrolling */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 12px; /* Reduced gap */
+            align-content: start; /* Align grid items to the start */
+        }
+        .content-box {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 10px; /* Reduced padding */
+            border: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Prevent content overflow */
+            /* min-height: 150px; Removed to allow content to determine height */
+        }
+        .content-box-title {
+            background-color: #34495e;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px; /* Reduced bottom margin */
+            display: inline-block;
+        }
+        .content-box p, .content-box ul, .content-box ol {
+            font-size: 0.7rem; /* Further reduced font size */
+            color: #333;
+            line-height: 1.45; /* Slightly reduced line height */
+            /* Removed flex-grow: 1; to let content determine height */
+        }
+        .content-box ul {
+            list-style: disc;
+            padding-left: 14px;
+            margin-top: 5px;
+        }
+         .content-box ol {
+            list-style: decimal;
+            padding-left: 14px;
+            margin-top: 5px;
+        }
+        .content-box li {
+            margin-bottom: 2px;
+        }
+        .content-box strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .content-box img {
+            max-width: 100%; /* Ensure image does not exceed container width */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Ensure image fits within bounds without cropping, if needed */
+            display: block; /* Ensure image behaves as a block element */
+            border-radius: 4px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+        }
+        .image-caption {
+            font-size: 0.65rem;
+            text-align: center;
+            color: #555;
+            margin-top: 3px;
+        }
+        .grid-col-span-2 {
+            grid-column: span 2 / span 2;
+        }
+
+        /* Custom scrollbar */
+        .main-content-area::-webkit-scrollbar { width: 5px; }
+        .main-content-area::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 2.5px; }
+        .main-content-area::-webkit-scrollbar-thumb { background: #888; border-radius: 2.5px; }
+        .main-content-area::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Print specific styles */
+        @media print {
+            body {
+                background-color: #ffffff; padding: 0; margin: 0; display: block;
+                -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+            }
+            .pamphlet-container {
+                width: 210mm; height: 297mm; box-shadow: none; margin: 0; overflow: hidden;
+                display: flex; flex-direction: column;
+            }
+            .navigation-bar { display: none; } /* Hide nav bar in print */
+            .header-section { padding: 10mm 15mm; }
+            .main-content-area {
+                padding: 10mm; overflow-y: hidden; display: grid; gap: 8mm; flex-grow: 1;
+            }
+            .content-box { page-break-inside: avoid; padding: 8mm; }
+            ::-webkit-scrollbar { display: none; }
+            /* Adjust font sizes for print if needed */
+            .project-title { font-size: 14pt; }
+            .project-subtitle { font-size: 9pt; }
+            .team-info { font-size: 7pt; }
+            .content-box-title { font-size: 9pt; }
+            .content-box p, .content-box ul, .content-box ol { font-size: 7.5pt; }
+            .image-caption { font-size: 6.5pt; }
+        }
+    </style>
+</head>
+<body>
+    <div class="pamphlet-container">
+        <!-- 상단 네비게이션 바 -->
+        <nav class="navigation-bar">
+            <div class="container">
+                <a href="index.html" class="brand">WandaVision</a>
+                <div class="space-x-6">
+                    <a href="index.html">메인</a>
+                    <a href="gallery.html">발표자료</a>
+                    <a href="pamphlet.html">팸플릿</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="header-section">
+            <div class="header-left">
+                <div class="text-sm opacity-80 mb-1">NGL Transportation Logistics Innovation</div>
+                <h1 class="project-title">AI 기반 컨테이너 출입 자동 기록 시스템</h1>
+                <h2 class="project-subtitle">WandaVision YOLO: 물류 효율성 극대화를 위한 지능형 솔루션</h2>
+                <div class="team-info">
+                    <span>팀명: WandaVision</span> |
+                    <span>팀원: 손하영, 안성진, 최예니, 임진섭</span> |
+                    <span>지도교수: 정우환</span>
+                </div>
+            </div>
+            <div class="header-right logo-container">
+                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjPpoYZFiOp5jc17ofaU9O_me8xqY6aH-i2g&s" alt="NGL Logo">
+                 <!-- Add other logos like SDG if needed -->
+            </div>
+        </div>
+
+        <div class="main-content-area">
+            <!-- 과제 동기 및 목적 -->
+            <div class="content-box">
+                <div class="content-box-title">과제 동기 및 목적</div>
+                <p>기존 수동 컨테이너 출입 관리는 <strong>높은 비용, 인적 오류, 실시간 관리 부재, 데이터 활용 제한</strong> 등의 명확한 한계를 가집니다. 이는 물류 경쟁력 저하로 이어집니다.</p>
+                <p>본 과제는 최신 AI 기술(YOLOv8, Google Gemini)을 활용하여 <strong>컨테이너 출입 기록 프로세스를 완전 자동화</strong>함으로써, NGL Transportation의 <strong>운영 효율성을 극대화</strong>하고 <strong>데이터 기반의 정확한 물류 관리 체계</strong>를 구축하는 것을 목적으로 합니다.</p>
+            </div>
+
+            <!-- 활용방안 및 기대효과 -->
+            <div class="content-box">
+                <div class="content-box-title">활용방안 및 기대효과</div>
+                <p>WandaVision YOLO 시스템은 NGL의 물류 센터, 항만 등 컨테이너 출입이 발생하는 모든 게이트에 적용 가능합니다.</p>
+                <ul>
+                    <li><strong>운영 효율성 혁신:</strong> 수작업 대비 인력 비용 절감 (연간 약 1.9억 원 추산) 및 입출입 처리 시간 단축으로 프로세스 간소화.</li>
+                    <li><strong>데이터 정확성 향상:</strong> 인적 오류(오기입, 누락)를 원천 차단하여 데이터 신뢰도 극대화.
+                        <div class="mt-1 text-xs">
+                            <span class="font-semibold">정확도 비교:</span>
+                            <div class="flex items-center mt-0.5">
+                                <span class="w-12 mr-1">기존:</span>
+                                <div class="w-2/3 h-2 bg-gray-300 rounded-full"><div class="h-2 bg-red-500 rounded-full" style="width: 70%;"></div></div>
+                                <span class="ml-1 text-gray-600">~70%</span>
+                            </div>
+                            <div class="flex items-center mt-0.5">
+                                <span class="w-12 mr-1">개선:</span>
+                                <div class="w-2/3 h-2 bg-gray-300 rounded-full"><div class="h-2 bg-blue-600 rounded-full" style="width: 98%;"></div></div>
+                                <span class="ml-1 text-blue-700 font-semibold">98%+</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li><strong>실시간 가시성 확보:</strong> 웹/모바일 대시보드를 통해 컨테이너 이동 현황을 실시간으로 파악하고 신속하게 대응 가능.</li>
+                    <li><strong>보안 강화:</strong> 모든 출입 기록이 자동으로 저장되어 데이터 위변조 방지 및 추적성 확보.</li>
+                </ul>
+                <p>궁극적으로 데이터 기반 의사결정을 지원하여 물류 경쟁력을 강화합니다.</p>
+            </div>
+
+            <!-- 과제 수행 방법 및 과정 -->
+            <div class="content-box grid-col-span-2">
+                <div class="content-box-title">과제 수행 방법 및 과정</div>
+                 <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p><strong>1. 데이터셋 구축 (NGL 맞춤형):</strong> 실제 운영 환경에서의 모델 성능 확보를 위해 NGL 환경의 CCTV 영상에서 직접 컨테이너 및 트럭 이미지를 500장 이상 확보했습니다. 이후 Roboflow 플랫폼을 활용하여 컨테이너 영역을 정확하게 지정하는 Bounding Box 라벨링 작업을 수행하고, 회전, 밝기 조절 등 다양한 데이터 증강 기법을 적용하여 학습 데이터셋을 1,500장 이상으로 확장했습니다. 이를 통해 다양한 환경 조건에서의 모델 강건성을 확보했습니다.</p>
+                        <ul class="list-none mt-1 text-xs text-gray-600">
+                            <li>- 데이터 수집: 실제 CCTV 영상 500+ 장</li>
+                            <li>- 정밀 라벨링: Roboflow 활용 (Bounding Box)</li>
+                            <li>- 데이터 증강: 1,500+ 장으로 확장</li>
+                        </ul>
+                        <p class="mt-3"><strong>2. AI 모델 개발 (WandaVisionYOLO.pt):</strong> 최신 객체 탐지 모델인 YOLOv8을 NGL 맞춤형 데이터셋으로 파인튜닝하여, NGL 환경에 특화된 고성능 컨테이너 탐지 모델('WandaVisionYOLO.pt')을 개발했습니다. 엄격한 테스트 결과, 개발된 모델은 <strong>98% 이상의 높은 컨테이너 탐지 정확도</strong>를 달성하여 시스템의 신뢰성을 확보했습니다.</p>
+                        <ul class="list-none mt-1 text-xs text-gray-600">
+                            <li>- 모델: YOLOv8 파인튜닝</li>
+                            <li>- 결과: 탐지 정확도 98%+</li>
+                        </ul>
+                         <p class="mt-3"><strong>3. 지능형 시스템 구현:</strong> 컨테이너가 게이트를 통과하는 최적의 순간(번호판이 가장 잘 보이는 시점)을 자동으로 포착하는 <strong>지능형 이미지 캡처 로직</strong>(IoU, BBox 크기 변화 추적)을 개발했습니다. 캡처된 고품질 이미지에서 컨테이너 번호를 정확하게 인식하기 위해 강력한 <strong>Google Gemini AI의 OCR 기능</strong>을 연동했으며, 탐지된 정보(번호, 시간 등)는 <strong>JSON 형식으로 자동 기록</strong>되고 <strong>Pydantic 라이브러리</strong>를 통해 데이터 정합성과 유효성을 실시간으로 검증하여 오류를 최소화합니다.</p>
+                        <ul class="list-none mt-1 text-xs text-gray-600">
+                            <li>- 핵심 기능: 지능형 캡처, Gemini OCR, 자동 로깅/검증</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="roboflow_labeling_example.png" alt="Roboflow 라벨링 예시">
+                        <p class="image-caption">Roboflow 플랫폼을 활용한 정밀 라벨링</p>
+                    </div>
+                 </div>
+            </div>
+       </div>
+
+       <!-- 시스템 전체 워크플로우 -->
+       <div class="content-box grid-col-span-2">
+           <div class="content-box-title">시스템 전체 워크플로우</div>
+           <div class="mermaid" style="text-align: center; margin-top: 10px;">
+graph LR
+A[1. CCTV 영상 입력] --> B(2. 컨테이너 감지/추적);
+B --> C{3. 최적 시점<br>이미지 캡처};
+C --> D[4. YOLOv8:<br>컨테이너 탐지];
+C --> E[5. Google Gemini:<br>번호판 OCR];
+D --> F(6. 데이터 통합);
+E --> F;
+F --> G[7. Pydantic:<br>데이터 검증];
+G --> H[8. JSON 데이터<br>저장/로깅];
+H --> I[9. 데이터 기반<br>의사결정 지원];
+           </div>
+           <script>mermaid.initialize({startOnLoad:true});</script>
+
+            <!-- 과제 결과 기술 -->
+             <div class="content-box grid-col-span-2"> <!-- Span 2 columns for this section -->
+                <div class="content-box-title">과제 결과 기술</div>
+                <div class="grid grid-cols-2 gap-4"> <!-- Removed items-start to allow stretching -->
+                    <div> <!-- Left column for text -->
+                        <p>개발된 WandaVision YOLO 시스템은 다음과 같은 핵심 기술 요소로 구성됩니다.</p>
+                        <ul>
+                            <li><strong>실시간 컨테이너 탐지/추적:</strong> NGL 환경에 최적화된 YOLOv8 모델</li>
+                            <li><strong>지능형 이미지 캡처:</strong> AI 기반 최적 시점 자동 포착</li>
+                            <li><strong>고정밀 번호 인식:</strong> Google Gemini AI OCR 활용</li>
+                            <li><strong>자동 데이터 로깅/검증:</strong> JSON 저장 및 Pydantic 활용</li>
+                            <li><strong>주요 기능:</strong> 실시간 처리(약 0.3초), 최소 면적 필터링, 중복 방지 등</li>
+                        </ul>
+                    </div>
+                    <div> <!-- Right column for image -->
+                        <img src="Detection.png" alt="컨테이너 번호 인식 결과"> <!-- Use default img styles defined above -->
+                        <p class="image-caption">시스템의 컨테이너 감지 및 번호 인식 예시</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 개선방향 -->
+            <div class="content-box">
+                <div class="content-box-title">개선방향</div>
+                <p>향후 시스템 고도화를 위해 다음과 같은 방향을 고려하고 있습니다.</p>
+                <ul>
+                    <li>컨테이너 종류, 손상 상태 등 추가 정보 인식 기능 개발</li>
+                    <li>데이터 기반 예측 분석 기능 추가 (혼잡도 예측 등)</li>
+                    <li>모바일 앱 개발을 통한 현장 관리 편의성 증대</li>
+                    <li>블록체인 기술 연동을 통한 데이터 투명성 및 보안성 강화</li>
+                </ul>
+                 <p class="mt-4">지속적인 연구개발을 통해 NGL Transportation의 스마트 물류 시스템을 선도해 나갈 것입니다.</p>
+            </div>
+
+            <!-- 작품 이미지 (필요 시 추가) -->
+            <!--
+            <div class="content-box grid-col-span-2">
+                <div class="content-box-title">작품 이미지</div>
+                <img src="path/to/your/system/image.jpg" alt="시스템 구성 또는 실제 작동 모습">
+                <p class="image-caption">시스템 구성 또는 실제 작동 모습</p>
+            </div>
+            -->
+
+        </div>
+    </div>
+</body>
+</html>

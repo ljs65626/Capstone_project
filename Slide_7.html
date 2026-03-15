@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WandaVision YOLO 시스템 주요 기능</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header {
+            /* Changed background to match Slide 2 side panel */
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+            padding: 30px 60px;
+            color: white;
+        }
+        .title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 40px 60px;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Changed border color to accent red */
+            border-top: 5px solid #e74c3c;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 30%;
+            /* Changed background to accent red gradient */
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            /* Changed shadow color to accent red */
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .feature-desc {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        .feature-highlight {
+            /* Changed background and text color to accent red */
+            background-color: #fee2e2; /* Light red */
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        .bottom-info {
+            background-color: #F8F9FA;
+            padding: 15px 60px;
+            border-top: 1px solid #E9ECEF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .note {
+            font-size: 0.9rem;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+        }
+        .note i {
+            margin-right: 8px;
+            /* Changed icon color to accent red */
+            color: #e74c3c;
+        }
+        .logo {
+            height: 30px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">WandaVision YOLO 시스템의 주요 기능</h1>
+            <p class="subtitle">고성능 AI 기반 컨테이너 출입 자동화 시스템의 핵심 특징</p>
+        </div>
+        
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h2 class="feature-title">실시간 처리</h2>
+                <p class="feature-desc">CCTV 영상 입력과 동시에 AI 분석이 즉시 이루어져 결과가 실시간으로 도출됩니다. 지연이 거의 없는 빠른 처리 속도로 물류 흐름에 영향을 주지 않습니다.</p>
+                <div class="feature-highlight">
+                    <i class="fas fa-check-circle mr-2"></i> 평균 처리 시간: 0.3초 이내
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h2 class="feature-title">고성능 컨테이너 탐지</h2>
+                <p class="feature-desc">NGL 물류 환경에 최적화된 맞춤형 AI 모델을 통해 98% 이상의 정확도로 컨테이너 트럭을 감지합니다. 다양한 환경 조건에서도 안정적인 성능을 발휘합니다.</p>
+                <div class="feature-highlight">
+                    <i class="fas fa-check-circle mr-2"></i> YOLOv8 기반 파인튜닝 모델 적용
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h2 class="feature-title">자동 로깅</h2>
+                <p class="feature-desc">모든 출입 컨테이너 정보(번호, 시간, 위치 등)가 자동으로 기록되고 JSON 파일 형태로 저장됩니다. 사람의 개입 없이 정확하고 일관된 데이터가 축적됩니다.</p>
+                <div class="feature-highlight">
+                    <i class="fas fa-check-circle mr-2"></i> 오류 없는 정확한 데이터 축적
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <h2 class="feature-title">최소 면적 필터링</h2>
+                <p class="feature-desc">화면의 20% 이상을 차지하는 컨테이너만 처리 대상으로 선정하여 원거리에서의 오탐지를 방지합니다. 이를 통해 정확한 출입 시점 파악이 가능합니다.</p>
+                <div class="feature-highlight">
+                    <i class="fas fa-check-circle mr-2"></i> 정확한 출입 시점 인식
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clone"></i>
+                </div>
+                <h2 class="feature-title">중복 방지</h2>
+                <p class="feature-desc">지능형 추적 및 캡처 로직을 통해 동일 컨테이너 반복 기록을 최소화합니다. 시간 간격 및 유사도 기반 알고리즘으로 데이터 중복 없이 정확한 출입 기록을 유지합니다.</p>
+                <div class="feature-highlight">
+                    <i class="fas fa-check-circle mr-2"></i> 스마트 중복 방지 알고리즘
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <h2 class="feature-title">실시간 시연</h2>
+                <p class="feature-desc">실제 영상 처리 과정 및 결과 테이블 기록 시연이 가능합니다. 프로세스 전반의 투명성을 제공하며, 처리 과정을 시각적으로 확인할 수 있습니다.</p>
+                <div class="feature-highlight">
+                    <i class="fas fa-check-circle mr-2"></i> 다음 슬라이드에서 라이브 데모 진행
+                </div>
+            </div>
+        </div>
+        
+        <!-- Removed bottom info bar -->
+    </div>
+</body>
+</html>

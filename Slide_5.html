@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL 맞춤형 AI 모델 개발 과정</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header {
+            /* Changed background to match Slide 2 side panel */
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+            padding: 25px 60px;
+            color: white;
+        }
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .content-container {
+            display: flex;
+            padding: 20px 30px;
+        }
+        .left-col {
+            width: 60%;
+            padding: 0 20px;
+        }
+        .right-col {
+            width: 40%;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            /* Changed color and border to accent red */
+            color: #e74c3c;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e74c3c;
+            display: inline-block;
+        }
+        .challenge-box {
+            /* Changed background to light grey and border to accent red */
+            background-color: #f1f5f9;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .process-step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            /* Changed background color to accent red */
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .step-content p {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        .image-container {
+            position: relative;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+        }
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .result-box {
+            /* Changed background to accent red gradient */
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .result-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 25px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">정확도 98% 달성: 노력과 기술의 융합</h1>
+            <p class="subtitle">NGL 맞춤형 AI 모델 개발 과정</p>
+        </div>
+        
+        <div class="content-container">
+            <div class="left-col">
+                <div class="challenge-box">
+                    <!-- Changed text color from red to dark gray -->
+                    <h2 class="font-bold text-lg text-gray-800 mb-2">도전 과제</h2>
+                    <p class="text-gray-700">기존 YOLOv8 모델은 일반 '트럭'은 감지하지만, NGL 환경의 핵심인 '컨테이너 트럭' 자체는 정확히 식별하지 못하는 한계가 있었습니다.</p>
+                </div>
+                
+                <h2 class="section-title">데이터 구축 노력</h2>
+                
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>수작업 이미지 추출</h3>
+                        <p>실제 NGL 주차장 CCTV 영상에서 수많은 컨테이너 트럭 이미지를 <strong>직접 선별하고 추출</strong>하는 고된 작업을 수행했습니다. 다양한 각도와 조명 조건의 이미지를 확보했습니다.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>정밀 라벨링</h3>
+                        <p>Roboflow 플랫폼에서 팀원들이 협력하여 추출된 이미지에 컨테이너 영역을 <strong>정밀하게 라벨링</strong>(Bounding Box)하였습니다. 이 과정에서 데이터 일관성을 유지하기 위한 엄격한 가이드라인을 적용했습니다.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>데이터 증강 (Augmentation)</h3>
+                        <p>다양한 환경에서의 강인한 성능 확보를 위해 회전, 밝기 조절, 노이즈 추가 등 <strong>데이터 증강 기법을 적용</strong>하여 데이터셋을 3배로 확장했습니다. 이를 통해 모델의 일반화 성능을 크게 향상시켰습니다.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>모델 파인튜닝</h3>
+                        <p>구축된 고품질 맞춤 데이터셋을 사용하여 <strong>YOLOv8 모델을 NGL 환경에 특화</strong>하여 파인튜닝했습니다. 컨테이너 트럭 탐지에 최적화된 <code>WandaVisionYOLO.pt</code> 모델을 개발했습니다.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-col">
+                <div>
+                    <div class="image-container">
+                        <img src="https://miro.medium.com/v2/resize:fit:1024/1*MIu4MqWSq6Cv18s4UwKU_A.png" alt="컨테이너 트럭 감지">
+                        <div class="image-label">컨테이너 트럭 감지 예시</div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <img src="https://developer-blogs.nvidia.com/wp-content/uploads/2020/09/predicted-bounding-boxes-consolidated-into-inference-image.png" alt="객체 감지 결과">
+                        <div class="image-label">YOLO 객체 감지 결과</div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-gray-800 font-medium mb-2">데이터 증강 효과</h3>
+                    <div class="flex justify-between text-sm">
+                        <div class="text-center">
+                            <div class="text-gray-600 mb-1">원본 데이터</div>
+                            <div class="text-2xl font-bold text-gray-800">500장</div>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-arrow-right text-gray-400 my-4"></i>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-gray-600 mb-1">증강 후</div>
+                            <!-- Changed text color from blue to accent red -->
+                            <div class="text-2xl font-bold text-red-600">1,500장+</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">결과</h3>
+                        <p>원본 모델의 한계를 극복하고, <span class="text-2xl font-bold">컨테이너 트럭 탐지 정확도 98% 이상</span> 달성!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjPpoYZFiOp5jc17ofaU9O_me8xqY6aH-i2g&s" alt="NGL Transportation Logo" class="logo">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 갤러리 테스트</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Jasmine 테스트 프레임워크 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/4.0.1/jasmine.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/4.0.1/jasmine.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/4.0.1/jasmine-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/4.0.1/boot0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/4.0.1/boot1.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #4834DF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background-color: #4834DF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #3a2bb8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>슬라이드 갤러리 테스트</h1>
+        
+        <p class="mb-4">이 페이지는 슬라이드 갤러리의 기능을 테스트합니다.</p>
+        
+        <a href="gallery.html" class="btn" target="_blank">갤러리 보기</a>
+    </div>
+    
+    <!-- 실제 갤러리 HTML을 iframe으로 로드 -->
+    <iframe id="gallery-frame" src="gallery.html" style="display: none;"></iframe>
+    
+    <!-- 테스트 스크립트 추가 -->
+    <script src="gallery_test.js"></script>
+    
+    <script>
+        // iframe이 로드된 후 테스트 실행
+        document.getElementById('gallery-frame').onload = function() {
+            // 테스트 환경 설정
+            jasmine.getEnv().configure({
+                random: false
+            });
+            
+            // 이제 테스트 실행
+            window.onload();
+        };
+    </script>
+</body>
+</html> 

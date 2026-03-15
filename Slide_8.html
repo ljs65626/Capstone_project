@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL Transportation 도입 효과</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header {
+            /* Changed background to match Slide 2 side panel */
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+            padding: 30px 60px;
+            color: white;
+        }
+        .title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .content-container {
+            display: flex;
+            padding: 40px;
+        }
+        .benefits-section {
+            width: 60%;
+            padding-right: 30px;
+        }
+        .graph-section {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .benefit-card {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Changed border color to accent red */
+            border-left: 5px solid #e74c3c;
+        }
+        .benefit-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            /* Changed background to accent red gradient */
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+            /* Changed shadow color to accent red */
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        .benefit-content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .benefit-content p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .benefit-highlight {
+            /* Changed background and text color to accent red */
+            background-color: #fee2e2; /* Light red */
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #e74c3c;
+            display: inline-block;
+            font-weight: 500;
+        }
+        .graph-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            height: 45%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        .graph-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .chart-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+            width: 100%;
+            padding: 0 20px;
+        }
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .bar {
+            width: 40px;
+            /* Changed bar color to accent red */
+            background: linear-gradient(to top, #c0392b, #e74c3c);
+            border-radius: 4px 4px 0 0;
+            margin: 0 5px;
+            transition: height 1s ease;
+        }
+        .bar-before {
+            height: 50px;
+            background: linear-gradient(to top, #e74c3c, #f39c12);
+        }
+        .bar-after {
+            height: 150px;
+        }
+        .bar-label {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 8px;
+            text-align: center;
+            width: 60px;
+        }
+        .chart-label {
+            position: absolute;
+            font-size: 0.8rem;
+            color: #777;
+        }
+        .y-axis-label {
+            transform: rotate(-90deg);
+            left: -15px;
+            top: 50%;
+        }
+        .comparison-chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 85%;
+        }
+        .comparison-side {
+            width: 45%;
+            padding: 0 10px;
+            text-align: center;
+        }
+        .comparison-vs {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #7f8c8d;
+            margin: 0 15px;
+        }
+        .comparison-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        /* Keep traditional color as red, change WandaVision color */
+        .comparison-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .comparison-desc {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        .traditional {
+            color: #e74c3c; /* Keep red for traditional */
+        }
+        .wanda-vision {
+            color: #e74c3c; /* Change WandaVision color to accent red */
+        }
+        .accuracy-meter {
+            width: 100%;
+            height: 30px;
+            background-color: #ecf0f1;
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .accuracy-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 1.5s ease;
+        }
+        .traditional-fill {
+            width: 70%;
+            background: linear-gradient(to right, #f39c12, #e74c3c); /* Keep traditional fill */
+        }
+        .wanda-fill {
+            width: 98%;
+            /* Change WandaVision fill to accent red */
+            background: linear-gradient(to right, #c0392b, #e74c3c);
+        }
+        .accuracy-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            height: 30px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">WandaVision YOLO가 NGL에 제공하는 가치</h1>
+            <p class="subtitle">자동화된 컨테이너 인식 시스템의 도입 효과</p>
+        </div>
+        
+        <div class="content-container">
+            <div class="benefits-section">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>운영 효율성 증대</h3>
+                        <p>컨테이너 출입 기록 프로세스를 완전 자동화하여 수동 작업 시간을 대폭 줄이고 관련 인력 비용을 절감합니다.</p>
+                        <span class="benefit-highlight"><i class="fas fa-check-circle mr-1"></i> 운영 프로세스 간소화</span>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>데이터 정확성 향상</h3>
+                        <p>인적 오류(누락, 오기입)를 원천 차단하고 98% 이상의 탐지 정확도로 신뢰할 수 있는 데이터 기반 의사결정을 지원합니다.</p>
+                        <span class="benefit-highlight"><i class="fas fa-check-circle mr-1"></i> 오류 감소 및 데이터 품질 향상</span>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>실시간 가시성 확보</h3>
+                        <p>언제 어디서든 실시간으로 컨테이너 출입 현황을 모니터링하고, 문제 발생 시 빠르게 인지하고 대응할 수 있습니다.</p>
+                        <span class="benefit-highlight"><i class="fas fa-check-circle mr-1"></i> 실시간 현황 파악 및 즉각 대응</span>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>보안 강화</h3>
+                        <p>모든 출입 기록이 자동으로 저장되어 추적성과 투명성이 확보되며, 불법 출입 등 이상 상황 감지가 가능해집니다.</p>
+                        <span class="benefit-highlight"><i class="fas fa-check-circle mr-1"></i> 추적성 및 투명성 확보</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="graph-section">
+                <div class="graph-container">
+                    <h3 class="graph-title">운영 비용 비교</h3>
+                    <div class="comparison-chart">
+                        <div class="comparison-side">
+                            <div class="comparison-title traditional">기존 수동 방식</div>
+                            <div class="comparison-value traditional">₩2,400만</div>
+                            <div class="comparison-desc">월간 운영 비용</div>
+                        </div>
+                        <div class="comparison-vs">VS</div>
+                        <div class="comparison-side">
+                            <div class="comparison-title wanda-vision">WandaVision 도입 후</div>
+                            <div class="comparison-value wanda-vision">₩800만</div>
+                            <div class="comparison-desc">월간 운영 비용</div>
+                        </div>
+                    </div>
+                    <!-- Changed text color from green to accent red -->
+                    <div class="text-center mt-2 text-red-600 font-medium">
+                        연간 약 <span class="text-xl font-bold">₩1.9억</span> 비용 절감 효과
+                    </div>
+                </div>
+                
+                <div class="graph-container">
+                    <h3 class="graph-title">데이터 정확성 비교</h3>
+                    <div class="mt-4">
+                        <div class="comparison-title traditional">기존 수동 방식</div>
+                        <div class="accuracy-meter">
+                            <div class="accuracy-fill traditional-fill"></div>
+                            <div class="accuracy-label">70% 정확도</div>
+                        </div>
+                        
+                        <div class="comparison-title wanda-vision mt-6">WandaVision YOLO</div>
+                        <div class="accuracy-meter">
+                            <div class="accuracy-fill wanda-fill"></div>
+                            <div class="accuracy-label">98% 정확도</div>
+                        </div>
+                    </div>
+                    <!-- Changed text color from blue to accent red -->
+                    <div class="text-center mt-4 text-red-600 font-medium">
+                        <i class="fas fa-chart-pie mr-1"></i> 데이터 기반 신뢰할 수 있는 의사결정 지원
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjPpoYZFiOp5jc17ofaU9O_me8xqY6aH-i2g&s" alt="NGL Transportation Logo" class="logo">
+    </div>
+</body>
+</html>

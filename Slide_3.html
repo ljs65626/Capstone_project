@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL Transportation: 우리의 솔루션</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header {
+            /* Changed background to match Slide 2 side panel */
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
+            padding: 30px 60px;
+            color: white;
+        }
+        .title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .content-container {
+            display: flex;
+            padding: 40px 0;
+        }
+        .image-section {
+            width: 45%;
+            padding: 0 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .image-caption {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+        .features-section {
+            width: 55%;
+            padding: 0 40px;
+        }
+        .section-heading {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            /* Changed border color to accent red */
+            border-bottom: 3px solid #e74c3c;
+            display: inline-block;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            /* Changed border color to accent red */
+            border-left: 4px solid #e74c3c;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .feature-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            font-size: 1.8rem;
+            /* Changed icon color to accent red */
+            color: #e74c3c;
+            margin-right: 15px;
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            /* Changed background color to light red */
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .feature-text h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .feature-text p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        .benefits-bar {
+            /* Changed background to accent red gradient */
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 60px;
+            display: flex;
+            align-items: center;
+        }
+        .benefits-icon {
+            font-size: 2rem;
+            margin-right: 20px;
+        }
+        .logo {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            height: 30px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">AI가 바꾸는 물류 현장: WandaVision YOLO 시스템 소개</h1>
+            <p class="subtitle">기존 CCTV 인프라를 활용한 지능형 자동화 솔루션</p>
+        </div>
+        
+        <div class="content-container">
+            <div class="image-section">
+                <img src="https://adaptiverecognition.com/wp-content/uploads/2024/04/container-code-recognition-camera-vidar-product-image-1.jpg" alt="AI 컨테이너 인식 시스템" class="main-image">
+                <p class="image-caption">기존 CCTV 카메라를 활용한 AI 기반 컨테이너 인식 시스템</p>
+                
+                <!-- Changed blue box style to match Slide 2 highlight box -->
+                <div class="mt-8 bg-gray-100 p-4 rounded-lg border-l-4 border-red-600">
+                    <h3 class="text-gray-800 font-medium text-lg mb-2">WandaVision YOLO란?</h3>
+                    <p class="text-gray-700">YOLO(You Only Look Once) 딥러닝 기술을 기반으로 한 실시간 객체 탐지 시스템으로, NGL Transportation의 컨테이너 물류 환경에 최적화되었습니다.</p>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <h2 class="section-heading">핵심 기능</h2>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>CCTV 영상 실시간 분석</h3>
+                        <p>기존 설치된 CCTV 카메라 시스템에서 입력되는 영상을 실시간으로 분석하여 추가 장비 투자 없이 구현 가능합니다.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>컨테이너 트럭 자동 감지 및 추적</h3>
+                        <p>YOLOv8 알고리즘 기반으로 컨테이너 트럭을 정확하게 감지하고 물류 공간 내에서 이동 경로를 실시간 추적합니다.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>컨테이너 번호 자동 인식 (OCR)</h3>
+                        <p>Google Gemini AI를 활용한 고정밀 OCR 기술로 컨테이너 번호를 자동으로 인식하고 추출합니다.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>출입 정보 자동 기록 및 저장</h3>
+                        <p>감지된 컨테이너 정보, 출입 시간, 위치 데이터를 자동으로 기록하고 JSON 형식으로 저장하여 데이터 활용성을 높입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="benefits-bar">
+            <div class="benefits-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-1">기대 효과: 물류 관리 효율성 증대 및 운영 비용 절감</h3>
+                <p>인력 의존도 감소, 실시간 물류 가시성 확보, 데이터 기반 의사결정 지원으로 물류 운영 최적화</p>
+            </div>
+        </div>
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjPpoYZFiOp5jc17ofaU9O_me8xqY6aH-i2g&s" alt="NGL Transportation Logo" class="logo">
+    </div>
+</body>
+</html>
