@@ -4,7 +4,7 @@
 
 ## 링크
 
-GitHub Pages: https://tjdwls101010.github.io/Capstone_PPT2/
+GitHub Pages: https://ljs65626.github.io/Capstone_project/
 
 ## 목차
 
